@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My To-Do List</title>
+    <script src="https://unpkg.com/vue@3"></script>
+    <style>
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 20px;
+        }
+        #app {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        input {
+            padding: 8px;
+            width: 70%;
+        }
+        button {
+            padding: 8px 12px;
+            margin-left: 5px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: #f9f9f9;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- Our app code -->
+         <h1>My To-do List</h1>
+         <div>
+            <input type="text"
+            v-model = "newTask"
+            placeholder="Add a new task"
+            @keyup.enter="addTask"
+            />
+            <button @click="addTask">Add</button>
+         </div>
+         <ul>
+            <li v-for="(task, index) in tasks" ::key="index">
+                {{task}}
+                <button @click="removeTask(index)">Remove</button>
+            </li>
+         </ul>
+    </div>
+
+    <script>
+        <!-- Vue code written here -->
+        const app = Vue.createApp({
+            data() {
+                return {
+                    newTask:'', // to store the tasks
+                    tasks:[], // to store the list of tasks
+                }
+            },
+            methods: {
+                addTask(){
+                    if (this.newTask.trim() === '') return; // Don't add empty task
+                    this.tasks.push(this.newTask); // Add the task to the tasks list
+                    this.newTask = ''; // clear the input task
+                },
+                removeTask(index){
+                    this.tasks.splice(index, 1); // Remove the task at the give index
+                }
+            },
+        });
+        app.mount('#app')
+    </script>
+</body>
+</html>
